@@ -66,6 +66,20 @@
     border-color: #1a1a1a;
   }
 
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1.5px solid #e0e0e0;
+  }
+
+  .navbar-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
   .screen { display: none; }
   .screen.active { display: block; }
 
@@ -204,22 +218,9 @@
     margin-top: 0.75rem;
   }
 
-  /* Top bar */
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
   .topbar-info {
     font-size: 0.8rem;
     color: #666;
-  }
-
-  .topbar-actions {
-    display: flex;
-    gap: 0.5rem;
   }
 
   /* Rides table */
@@ -329,13 +330,17 @@
 <body>
 <div class="container">
 
+  <nav class="navbar">
+    <div class="navbar-title">GoldenCheetah Proxy Demo</div>
+    <button class="btn-secondary btn-small" id="disconnect-btn" onclick="disconnect()" style="display:none">Disconnect</button>
+  </nav>
+
   <!-- Screen 1: Setup -->
   <div id="setup-screen" class="screen active">
-    <h1>GoldenCheetah Proxy Demo</h1>
-    <p class="subtitle">Browse your GoldenCheetah data from the browser</p>
-    <p class="byline">by SweatStack</p>
+    <p class="explainer">Browse your GoldenCheetah data from the browser. By <a href="https://sweatstack.no">SweatStack</a>.</p>
+    <br>
 
-    <p class="explainer">This app connects to <strong>GoldenCheetah</strong> running on your computer. Because your browser can't talk directly to GoldenCheetah, we use a secure tunnel to create a temporary link. Nothing is stored on our servers — all data stays on your machine.</p>
+    <p class="explainer">This app connects to <strong>GoldenCheetah</strong> running on your computer. Because your browser can't talk directly to GoldenCheetah, we use a secure tunnel to create a temporary link. Nothing is stored on our servers.</p>
 
     <div class="steps">
       <ol>
@@ -361,17 +366,10 @@
 
   <!-- Screen 2: Rides & Mean-Max -->
   <div id="rides-screen" class="screen">
-    <div class="topbar">
-      <div>
-        <select id="athlete-select" onchange="onAthleteChange()"></select>
-        <div class="topbar-info" id="rides-info"></div>
-      </div>
-      <div class="topbar-actions">
-        <button class="btn-secondary btn-small" onclick="disconnect()">Disconnect</button>
-      </div>
-    </div>
-
     <div class="controls">
+      <select id="athlete-select" onchange="onAthleteChange()"></select>
+      <span class="topbar-info" id="rides-info"></span>
+      <span style="flex:1"></span>
       <label>From</label>
       <input type="date" id="date-from" onchange="onDateChange()" />
       <label>To</label>
@@ -490,6 +488,7 @@ async function connect() {
     localStorage.setItem('gc_tunnel_url', url);
     status.textContent = '';
 
+    document.getElementById('disconnect-btn').style.display = '';
     renderAthleteDropdown();
     selectAthlete(getAthleteName(athletes[0]));
   } catch (e) {
@@ -509,6 +508,7 @@ function disconnect() {
   document.getElementById('tunnel-url').value = '';
   document.getElementById('setup-error').textContent = '';
   document.getElementById('setup-status').textContent = '';
+  document.getElementById('disconnect-btn').style.display = 'none';
   if (meanmaxChart) { meanmaxChart.destroy(); meanmaxChart = null; }
   showScreen('setup-screen');
 }
