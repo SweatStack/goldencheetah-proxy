@@ -498,7 +498,7 @@ async function connect() {
     renderAthleteDropdown();
     selectAthlete(getAthleteName(athletes[0]));
   } catch (e) {
-    error.textContent = `Could not connect: ${e.message}`;
+    error.textContent = `Could not connect: ${e.message}. If this was working before, your Pinggy tunnel may have expired (free tier lasts 60 minutes). Restart the SSH command and try again.`;
     status.textContent = '';
   }
 
@@ -574,7 +574,7 @@ async function loadRides() {
     renderRides();
     await loadMeanMax();
   } catch (e) {
-    container.innerHTML = `<div class="error">Failed to load rides: ${e.message}</div>`;
+    container.innerHTML = `<div class="error">Failed to load rides: ${e.message}. Your Pinggy tunnel may have expired (free tier lasts 60 minutes). Restart the SSH command and reconnect.</div>`;
   }
 }
 
