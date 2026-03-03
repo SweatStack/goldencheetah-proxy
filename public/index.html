@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoldenCheetah Proxy Demo</title>
+<title>GoldenCheetah Proxy Demo by SweatStack</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5"></script>
 <style>
@@ -78,6 +78,12 @@
   .navbar-title {
     font-size: 1.1rem;
     font-weight: 700;
+  }
+
+  .navbar-byline {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #999;
   }
 
   .screen { display: none; }
@@ -331,7 +337,7 @@
 <div class="container">
 
   <nav class="navbar">
-    <div class="navbar-title">GoldenCheetah Proxy Demo</div>
+    <div class="navbar-title">GoldenCheetah Proxy Demo <span class="navbar-byline">by SweatStack</span></div>
     <button class="btn-secondary btn-small" id="disconnect-btn" onclick="disconnect()" style="display:none">Disconnect</button>
   </nav>
 
@@ -352,7 +358,7 @@
           </div>
           <span class="hint">This uses SSH, which is already installed on your computer. No extra software needed.</span>
         </li>
-        <li>The terminal will show a URL like <code>https://xxxx.a.pinggy.io</code> — paste it below and press Enter</li>
+        <li>The terminal will show a URL like <code>https://xxxx.a.pinggy.io</code>. Paste it below and press Enter.</li>
       </ol>
     </div>
 
