@@ -29,15 +29,41 @@
   .subtitle {
     color: #666;
     font-size: 0.85rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.25rem;
   }
 
   .byline {
     color: #999;
     font-size: 0.7rem;
     letter-spacing: 0.05em;
-    margin-top: -0.3rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .explainer {
+    font-size: 0.85rem;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  .hint {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.3rem;
+  }
+
+  select {
+    padding: 0.35rem 0.5rem;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    outline: none;
+    background: #fff;
+  }
+
+  select:focus {
+    border-color: #1a1a1a;
   }
 
   .screen { display: none; }
@@ -196,27 +222,6 @@
     gap: 0.5rem;
   }
 
-  /* Athlete list */
-  .athlete-list {
-    list-style: none;
-    margin: 1rem 0;
-  }
-
-  .athlete-list li {
-    padding: 0.75rem 1rem;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: border-color 0.15s, background 0.15s;
-  }
-
-  .athlete-list li:hover {
-    border-color: #1a1a1a;
-    background: #f5f5f5;
-  }
-
   /* Rides table */
   .controls {
     display: flex;
@@ -330,16 +335,19 @@
     <p class="subtitle">Browse your GoldenCheetah data from the browser</p>
     <p class="byline">by SweatStack</p>
 
+    <p class="explainer">This app connects to <strong>GoldenCheetah</strong> running on your computer. Because your browser can't talk directly to GoldenCheetah, we use a secure tunnel to create a temporary link. Nothing is stored on our servers — all data stays on your machine.</p>
+
     <div class="steps">
       <ol>
-        <li>Open <strong>GoldenCheetah</strong> and enable the API: Settings → General → Integration → <strong>Enable API Web Services</strong></li>
-        <li>Run this in a terminal (no install needed):
+        <li>Open <strong>GoldenCheetah</strong> and enable the API:<br>Settings → General → Integration → <strong>Enable API Web Services</strong></li>
+        <li>Open a terminal (Mac: Terminal app, Windows: PowerShell) and run this command:
           <div class="copy-block">
             <code>ssh -p 443 -R0:localhost:12021 a.pinggy.io</code>
             <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
           </div>
+          <span class="hint">This uses SSH, which is already installed on your computer. No extra software needed.</span>
         </li>
-        <li>Paste the URL that appears (e.g. <code>https://xxxx.a.pinggy.io</code>) below</li>
+        <li>The terminal will show a URL like <code>https://xxxx.a.pinggy.io</code> — paste it below and press Enter</li>
       </ol>
     </div>
 
@@ -351,28 +359,14 @@
     <div id="setup-status" class="status"></div>
   </div>
 
-  <!-- Screen 2: Athlete Selection -->
-  <div id="athlete-screen" class="screen">
-    <div class="topbar">
-      <div>
-        <h1>Select Athlete</h1>
-      </div>
-      <div class="topbar-actions">
-        <button class="btn-secondary btn-small" onclick="disconnect()">Disconnect</button>
-      </div>
-    </div>
-    <ul id="athlete-list" class="athlete-list"></ul>
-  </div>
-
-  <!-- Screen 3: Rides & Mean-Max -->
+  <!-- Screen 2: Rides & Mean-Max -->
   <div id="rides-screen" class="screen">
     <div class="topbar">
       <div>
-        <h1 id="athlete-name"></h1>
+        <select id="athlete-select" onchange="onAthleteChange()"></select>
         <div class="topbar-info" id="rides-info"></div>
       </div>
       <div class="topbar-actions">
-        <button class="btn-secondary btn-small" id="back-btn" onclick="backToAthletes()">Athletes</button>
         <button class="btn-secondary btn-small" onclick="disconnect()">Disconnect</button>
       </div>
     </div>
@@ -434,6 +428,9 @@ window.addEventListener('DOMContentLoaded', () => {
   if (saved) {
     document.getElementById('tunnel-url').value = saved;
   }
+  document.getElementById('tunnel-url').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') connect();
+  });
   renderSeriesSelector();
 });
 
@@ -455,7 +452,12 @@ async function apiFetch(path) {
 }
 
 function parseCSV(text) {
-  const result = Papa.parse(text.trim(), { header: true, skipEmptyLines: true });
+  const result = Papa.parse(text.trim(), {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: h => h.trim(),
+    transform: v => v.trim(),
+  });
   return result.data;
 }
 
@@ -488,12 +490,8 @@ async function connect() {
     localStorage.setItem('gc_tunnel_url', url);
     status.textContent = '';
 
-    if (athletes.length === 1) {
-      selectAthlete(athletes[0].athlete || athletes[0][Object.keys(athletes[0])[0]]);
-    } else {
-      renderAthleteList();
-      showScreen('athlete-screen');
-    }
+    renderAthleteDropdown();
+    selectAthlete(getAthleteName(athletes[0]));
   } catch (e) {
     error.textContent = `Could not connect: ${e.message}`;
     status.textContent = '';
@@ -515,25 +513,31 @@ function disconnect() {
   showScreen('setup-screen');
 }
 
-// --- Screen 2: Athlete Selection ---
-function renderAthleteList() {
-  const list = document.getElementById('athlete-list');
-  list.innerHTML = '';
+// --- Athlete helpers ---
+function getAthleteName(a) {
+  return a.name || a.athlete || a[Object.keys(a)[0]];
+}
+
+function renderAthleteDropdown() {
+  const select = document.getElementById('athlete-select');
+  select.innerHTML = '';
   athletes.forEach(a => {
-    const name = a.athlete || a[Object.keys(a)[0]];
-    const li = document.createElement('li');
-    li.textContent = name;
-    li.onclick = () => selectAthlete(name);
-    list.appendChild(li);
+    const name = getAthleteName(a);
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
   });
+}
+
+function onAthleteChange() {
+  const name = document.getElementById('athlete-select').value;
+  selectAthlete(name);
 }
 
 async function selectAthlete(name) {
   currentAthlete = name;
-  document.getElementById('athlete-name').textContent = name;
-
-  // Hide back button if only one athlete
-  document.getElementById('back-btn').style.display = athletes.length > 1 ? '' : 'none';
+  document.getElementById('athlete-select').value = name;
 
   // Default date range: 2 years ago to today
   const today = new Date();
@@ -544,11 +548,6 @@ async function selectAthlete(name) {
 
   showScreen('rides-screen');
   await loadRides();
-}
-
-function backToAthletes() {
-  if (meanmaxChart) { meanmaxChart.destroy(); meanmaxChart = null; }
-  showScreen('athlete-screen');
 }
 
 // --- Screen 3: Rides & Mean-Max ---
