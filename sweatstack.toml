@@ -1,7 +1,7 @@
 [app]
-name = "GoldenCheetah Proxy Demo"
+name = "GoldenCheetah Web Viewer"
 client_id = "01KJSZJG3Z4ETF7C195H0H6NCJ"
 
 [page]
-slug = "goldencheetah-proxy-demo"
+slug = "goldencheetah-web-viewer"
 directory = "public"

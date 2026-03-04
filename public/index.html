@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoldenCheetah Proxy Demo by SweatStack</title>
+<title>GoldenCheetah Web Viewer by SweatStack</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5"></script>
 <style>
@@ -76,7 +76,7 @@
   }
 
   .navbar-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 700;
   }
 
@@ -84,6 +84,28 @@
     font-size: 0.75rem;
     font-weight: 400;
     color: #999;
+    white-space: nowrap;
+  }
+
+  .navbar-byline a {
+    color: #999;
+    text-decoration: none;
+  }
+
+  .navbar-byline a:hover {
+    color: #666;
+    text-decoration: underline;
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    background: #f0f0f0;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border-left: 3px solid #1a1a1a;
+    margin-bottom: 1.25rem;
   }
 
   .screen { display: none; }
@@ -324,6 +346,19 @@
     color: #fafafa;
   }
 
+  .footnote {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.75rem;
+    color: #999;
+    line-height: 1.6;
+  }
+
+  .footnote p {
+    margin-bottom: 0.5rem;
+  }
+
   /* Empty state */
   .empty {
     text-align: center;
@@ -337,16 +372,16 @@
 <div class="container">
 
   <nav class="navbar">
-    <div class="navbar-title">GoldenCheetah Proxy Demo <span class="navbar-byline">by SweatStack</span></div>
+    <div class="navbar-title">GoldenCheetah Web Viewer <span class="navbar-byline">by <a href="https://sweatstack.no">SweatStack</a></span></div>
     <button class="btn-secondary btn-small" id="disconnect-btn" onclick="disconnect()" style="display:none">Disconnect</button>
   </nav>
 
   <!-- Screen 1: Setup -->
   <div id="setup-screen" class="screen active">
-    <p class="explainer">Browse your GoldenCheetah data from the browser. By <a href="https://sweatstack.no">SweatStack</a>.</p>
-    <br>
+    <div class="tagline">Analyze your GoldenCheetah data in the browser.</div>
 
-    <p class="explainer">This app connects to <strong>GoldenCheetah</strong> running on your computer. Because your browser can't talk directly to GoldenCheetah, we use a secure tunnel to create a temporary link. Nothing is stored on our servers.</p>
+    <p class="explainer"><a href="https://www.goldencheetah.org/">GoldenCheetah</a> runs a local API on your computer that this app reads from. The SSH command below opens a secure tunnel so your browser can reach it. Nothing is stored on our servers.<sup>*</sup></p>
+    <p class="explainer">This is an experimental tool. Use at your own risk.</p>
 
     <div class="steps">
       <ol>
@@ -356,7 +391,7 @@
             <code>ssh -p 443 -R0:localhost:12021 a.pinggy.io</code>
             <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
           </div>
-          <span class="hint">This uses SSH, which is already installed on your computer. No extra software needed.</span>
+          <span class="hint">This uses SSH, which is already installed on your computer. No extra software needed. You can also use any other SSH tunnel service, just paste the resulting URL below.</span>
         </li>
         <li>The terminal will show a URL like <code>https://xxxx.a.pinggy.io</code>. Paste it below and press Enter.</li>
       </ol>
@@ -368,6 +403,10 @@
     </div>
     <div id="setup-error" class="error"></div>
     <div id="setup-status" class="status"></div>
+
+    <div class="footnote">
+      <p>* The SSH tunnel service (e.g. Pinggy) may log URLs, which includes athlete names. We have no control over third-party services.</p>
+    </div>
   </div>
 
   <!-- Screen 2: Rides & Mean-Max -->
