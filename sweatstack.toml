@@ -4,4 +4,4 @@ client_id = "01KJSZJG3Z4ETF7C195H0H6NCJ"
 
 [page]
 slug = "goldencheetah-web-viewer"
-directory = "public"
+directory = "goldencheetah-web-viewer/"
