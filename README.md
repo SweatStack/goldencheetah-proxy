@@ -22,6 +22,8 @@ Open **PowerShell** (press the Windows key, type "PowerShell", press Enter) and 
 powershell -ExecutionPolicy ByPass -c "irm https://uvx.sh/goldencheetah-proxy/install.ps1 | iex"
 ```
 
+After installing, **close your terminal and open a new one** before continuing. This is needed for the `goldencheetah-proxy` command to be recognized.
+
 ## How to use
 
 ### Step 1: Enable the GoldenCheetah API
