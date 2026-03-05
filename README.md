@@ -70,6 +70,14 @@ goldencheetah-proxy --port 9999       # Use a different port (default: 12022)
 goldencheetah-proxy --gc-port 5555    # GoldenCheetah API port (default: 12021)
 ```
 
+## Agent skill
+
+Building a web app that uses GoldenCheetah data? This repo includes an [agent skill](https://agentskills.io) that teaches AI coding agents how to build against the proxy. Install it into your project with:
+
+```
+npx skills add SweatStack/goldencheetah-proxy
+```
+
 ## For developers
 
 Source: [github.com/SweatStack/goldencheetah-proxy](https://github.com/SweatStack/goldencheetah-proxy)
