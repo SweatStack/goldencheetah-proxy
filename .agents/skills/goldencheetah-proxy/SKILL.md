@@ -55,4 +55,6 @@ Principles:
 
 ## Installation
 
-Apps should include setup instructions so users know how to install and run the proxy, but keep them out of the way — users only need them once. Use a collapsible section, a help link, or similar pattern so they don't clutter the main UI. Fetch the install commands from the [README](https://github.com/SweatStack/goldencheetah-proxy/blob/main/README.md) rather than hardcoding them. The install script adds `goldencheetah-proxy` directly to the user's PATH — users run it as `goldencheetah-proxy`, not via `uvx` or `python`. Users also need to enable the GoldenCheetah API: Settings → General → Integration → Enable API Web Services.
+Apps should include setup instructions so users know how to install and run the proxy, but keep them out of the way — users only need them once. Use a collapsible section, a help link, or similar pattern so they don't clutter the main UI.
+
+**Do not write installation instructions yourself.** Instead, link to the GitHub repo: https://github.com/SweatStack/goldencheetah-proxy — it has platform-specific install commands and setup steps that are kept up to date. The install script adds `goldencheetah-proxy` directly to the user's PATH — users run it as `goldencheetah-proxy`, not via `uvx` or `python`.
