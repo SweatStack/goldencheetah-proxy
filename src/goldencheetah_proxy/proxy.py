@@ -129,7 +129,7 @@ def make_handler(gc_base: str) -> type[BaseHTTPRequestHandler]:
                 body = resp.read()
                 self._forward_response(resp.status, resp.getheaders(), body, origin)
             except urllib.error.HTTPError as e:
-                # GC returned an error status — forward it as-is.
+                # GC returned an error status. Forward it as-is.
                 body = e.read()
                 self._forward_response(e.code, e.headers.items(), body, origin)
             except urllib.error.URLError as e:

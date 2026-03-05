@@ -371,24 +371,27 @@
       <ol>
         <li>Open <strong>GoldenCheetah</strong> and enable the API:<br>
           Settings &rarr; General &rarr; Integration &rarr; <strong>Enable API Web Services</strong></li>
-        <li>Install and run the proxy. You don't need Python or any other programming tools &mdash; the commands below handle everything automatically.
-          <p style="margin:0.5rem 0 0.2rem"><strong>macOS / Linux</strong> &mdash; paste into Terminal:</p>
+        <li>Install the proxy (one time only). You don't need Python or any other tools. The commands below handle everything automatically.
+          <p style="margin:0.5rem 0 0.2rem"><strong>macOS / Linux</strong> – open Terminal and paste:</p>
           <div class="copy-block">
             <code>curl -LsSf uvx.sh/goldencheetah-proxy/install.sh | sh</code>
             <button class="copy-btn" onclick="copyText(this)">Copy</button>
           </div>
-          <p style="margin:0.5rem 0 0.2rem"><strong>Windows</strong> &mdash; paste into PowerShell:</p>
+          <p style="margin:0.5rem 0 0.2rem"><strong>Windows</strong> – open PowerShell and paste:</p>
           <div class="copy-block">
             <code>powershell -ExecutionPolicy ByPass -c "irm https://uvx.sh/goldencheetah-proxy/install.ps1 | iex"</code>
             <button class="copy-btn" onclick="copyText(this)">Copy</button>
           </div>
-          <p style="margin:0.5rem 0 0.2rem">After installing, close your terminal and open a new one. Then run:</p>
+        </li>
+        <li><strong>Close your terminal and open a fresh one.</strong><br>
+          This is needed so your terminal picks up the newly installed command.</li>
+        <li>Start the proxy by running:
           <div class="copy-block">
             <code>goldencheetah-proxy</code>
             <button class="copy-btn" onclick="copyText(this)">Copy</button>
           </div>
         </li>
-        <li>Click <strong>Connect</strong> below. The proxy will prompt you to approve this website.</li>
+        <li>Click <strong>Connect</strong> below. The proxy will ask you to approve this website.</li>
       </ol>
     </div>
 

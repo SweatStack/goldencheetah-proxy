@@ -1,7 +1,7 @@
 [project]
 name = "goldencheetah-proxy"
 version = "0.2.0"
-description = "CORS proxy for the GoldenCheetah API — browse your data in the browser"
+description = "CORS proxy for the GoldenCheetah API"
 readme = "README.md"
 authors = [
     { name = "Aart Goossens", email = "aart@goossens.me" }

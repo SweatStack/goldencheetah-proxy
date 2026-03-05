@@ -1,40 +1,34 @@
 # GoldenCheetah Proxy
 
-A small tool that lets web apps access your [GoldenCheetah](https://www.goldencheetah.org/) data. It runs on your computer and keeps your data private — nothing is sent to the cloud.
+A small tool that lets web apps access your [GoldenCheetah](https://www.goldencheetah.org/) data. It runs on your computer and keeps your data private. Nothing is sent to the cloud.
 
 ## Installation
 
 You don't need Python or any other programming tools installed. The commands below handle everything automatically.
 
-### macOS and Linux
-
-Open **Terminal** (on Mac: press Cmd+Space, type "Terminal", press Enter) and paste this command:
+**macOS and Linux:** open Terminal (on Mac: press Cmd+Space, type "Terminal", press Enter) and paste:
 
 ```
 curl -LsSf uvx.sh/goldencheetah-proxy/install.sh | sh
 ```
 
-### Windows
-
-Open **PowerShell** (press the Windows key, type "PowerShell", press Enter) and paste this command:
+**Windows:** open PowerShell (press the Windows key, type "PowerShell", press Enter) and paste:
 
 ```
 powershell -ExecutionPolicy ByPass -c "irm https://uvx.sh/goldencheetah-proxy/install.ps1 | iex"
 ```
 
-After installing, **close your terminal and open a new one** before continuing. This is needed for the `goldencheetah-proxy` command to be recognized.
+> **Important:** After installing, close your terminal and open a fresh one. This is needed so your terminal picks up the newly installed command.
 
 ## How to use
 
-### Step 1: Enable the GoldenCheetah API
+### 1. Enable the GoldenCheetah API
 
 Open GoldenCheetah, then go to:
 
 **Settings → General → Integration → Enable API Web Services**
 
-This tells GoldenCheetah to make your data available locally.
-
-### Step 2: Run the proxy
+### 2. Start the proxy
 
 Open a terminal (or PowerShell on Windows) and run:
 
@@ -53,11 +47,11 @@ Waiting for connections...
 
 Leave this running while you use the web viewer.
 
-### Step 3: Open the web viewer
+### 3. Open the web viewer
 
 Open `goldencheetah-web-viewer/index.html` in your browser and click **Connect**.
 
-The proxy will ask you to approve the website — click **Allow** (or type `y` in the terminal on Linux).
+The proxy will ask you to approve the website. Click **Allow** (or type `y` in the terminal on Linux).
 
 ## What does the proxy do?
 
