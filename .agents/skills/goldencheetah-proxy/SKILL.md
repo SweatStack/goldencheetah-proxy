@@ -22,44 +22,20 @@ const PROXY = "http://localhost:12022";
 async function connect() {
   const res = await fetch(`${PROXY}/`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const athletes = await res.json(); // array of athlete names
+  // parse response — see API endpoints below
 }
 ```
 
 ## API endpoints
 
-The GoldenCheetah API has [minimal documentation](https://github.com/GoldenCheetah/GoldenCheetah/blob/master/doc/user/rest-api.txt). Response schemas are not fully documented — test against a running instance and inspect actual responses to verify the shape of the data.
+The GoldenCheetah API has [minimal documentation](https://github.com/GoldenCheetah/GoldenCheetah/blob/master/doc/user/rest-api.txt). Response formats and schemas are not fully documented — test against a running instance and inspect actual responses to understand the shape of the data.
 
-| Endpoint | Returns | Notes |
-|---|---|---|
-| `GET /` | `["Athlete1", "Athlete2"]` | List athlete names |
-| `GET /<athlete>?metrics=...&metadata=...` | JSON array of rides | List activities with selected metrics |
-| `GET /<athlete>/activity/<filename>?format=csv` | CSV timeseries | Activity data for plotting |
-| `GET /<athlete>/meanmax/bests?series=...` | JSON mean-max data | Historical best curve |
-
-### Listing activities
-
-```
-GET /<athlete>?metrics=average_power,normalized_power,intensity_factor,tss,average_hr,average_cad&metadata=Sport
-```
-
-Metrics and metadata are comma-separated. Returns JSON with one object per activity, each containing `filename`, `date`, and the requested fields.
-
-### Activity timeseries
-
-```
-GET /<athlete>/activity/<filename>?format=csv
-```
-
-Returns CSV with columns like `secs`, `watts`, `hr`, `cad`, `kph`, `alt`, `km`. Not all columns are present for every activity.
-
-### Mean-max curves
-
-```
-GET /<athlete>/meanmax/bests?series=power
-```
-
-Series options: `power`, `hr`, `cadence`, `speed`, `np` (normalized power).
+| Endpoint | Purpose |
+|---|---|
+| `GET /` | List athletes |
+| `GET /<athlete>?metrics=...&metadata=...` | List activities with selected metrics |
+| `GET /<athlete>/activity/<filename>?format=csv` | Activity timeseries data |
+| `GET /<athlete>/meanmax/bests?series=...` | Historical mean-max curve |
 
 ## Error handling
 
@@ -79,4 +55,4 @@ Principles:
 
 ## Installation
 
-Apps should include setup instructions so users know how to install and run the proxy, but keep them out of the way — users only need them once. Use a collapsible section, a help link, or similar pattern so they don't clutter the main UI. Fetch the install commands from the [README](https://github.com/SweatStack/goldencheetah-proxy/blob/main/README.md) rather than hardcoding them. Users also need to enable the GoldenCheetah API: Settings → General → Integration → Enable API Web Services.
+Apps should include setup instructions so users know how to install and run the proxy, but keep them out of the way — users only need them once. Use a collapsible section, a help link, or similar pattern so they don't clutter the main UI. Fetch the install commands from the [README](https://github.com/SweatStack/goldencheetah-proxy/blob/main/README.md) rather than hardcoding them. The install script adds `goldencheetah-proxy` directly to the user's PATH — users run it as `goldencheetah-proxy`, not via `uvx` or `python`. Users also need to enable the GoldenCheetah API: Settings → General → Integration → Enable API Web Services.
